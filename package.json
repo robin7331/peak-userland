@@ -1,0 +1,10 @@
+{
+  "name": "@bitmechanics/peak-userland",
+  "version": "1.0.0",
+  "description": "",
+  "main": "peak-userland.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robin Reiter & Matthias Hermann"
+}
