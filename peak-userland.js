@@ -3,7 +3,7 @@ var PeakModule = function (peak, customData) {
    this.config = require('./config');
    this.peak = peak;
    this.nativeMethods = customData.native;
-   this.JSMethods = customData.js; 
+   this.JSMethods = customData.js;
 }
 
 
@@ -24,7 +24,7 @@ PeakModule.prototype.bind = function(functionName, func){
 	//Register a callable JS Function that simply broadcasts an event that has the same name as the function
 	this[functionName] = func;
 	if(this.peak.config.debug){
-		this._info(functionName + "() has been binded to peak-userland!")
+		this._info(functionName + "() has been binded to " + this.name);
 	}
 };
 
