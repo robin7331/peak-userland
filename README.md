@@ -67,6 +67,7 @@ new Vue({
      
       const userland = peak.modules.peakUserland // grab a reference to the userland module
       userland.bind('clear', this.clearUI)       // 'bind' this.clearUI to the defined method definition. This method can now be called from native.
+      userland.bind('getCurrentResult', this.getCurrentResult)
 
       // After binding a method, you could also access it through:
       userland.clear()
@@ -80,6 +81,9 @@ new Vue({
          this.steps = []
          ...
          this.peak.info("results cleared!")     // You can always access the logger via this.peak.info or this.peak.error (or this.peak.logger)
+      },
+      getCurrentResult(callback) {
+         callback(this.result);
       }
    }
 })
@@ -87,5 +91,3 @@ new Vue({
 ```
 
 ## Call native methods ##
-
-
