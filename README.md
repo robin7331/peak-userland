@@ -33,14 +33,16 @@ module.exports = {
       },
       {
         name: 'getLastResult',
-        callback: {
-           callbackDataType: 'number'
-        }
+        callbackDataType: 'number'
       }
    ],
    js: [
       {
          name: 'clear'
+      },
+      {
+         name: 'getCurrentResult',
+         callbackDataType: 'number'
       }
    ]
 }
@@ -48,6 +50,10 @@ module.exports = {
 
 
 In our App we now need to implement these functions.
+
+
+## Implement JS Functions ##
+
 We only have one JS function, this could be implemented like this:
 
 
@@ -57,22 +63,29 @@ We only have one JS function, this could be implemented like this:
 
 new Vue({
 
-   ready: function() {
+   ready() {
      
-      const userland = peak.modules.peakUserland; // grab a reference to the userland module
-      userland.bind('clear', this.clearUI);       // 'bind' this.clearUI to the defined method definition. This method can now be called from native.
+      const userland = peak.modules.peakUserland // grab a reference to the userland module
+      userland.bind('clear', this.clearUI)       // 'bind' this.clearUI to the defined method definition. This method can now be called from native.
+
+      // After binding a method, you could also access it through:
+      userland.clear()
      
    },
 
    methods: {
 
-      clearUI: function() {
-         this.result = '';
-         this.steps = [];
+      clearUI() {
+         this.result = ''
+         this.steps = []
          ...
-         this.peak.info("results cleared!");     // You can always access the logger via this.peak.info or this.peak.error (or this.peak.logger)
+         this.peak.info("results cleared!")     // You can always access the logger via this.peak.info or this.peak.error (or this.peak.logger)
       }
    }
-});
+})
 
 ```
+
+## Call native methods ##
+
+
