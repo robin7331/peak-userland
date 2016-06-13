@@ -46,3 +46,33 @@ module.exports = {
 }
 ```
 
+
+In our App we now need to implement these functions.
+We only have one JS function, this could be implemented like this:
+
+
+```
+#!javascript
+
+
+new Vue({
+
+   ready: function() {
+     
+      const userland = peak.modules.peakUserland; // grab a reference to the userland module
+      userland.bind('clear', this.clearUI);       // 'bind' this.clearUI to the defined method definition. This method can now be called from native.
+     
+   },
+
+   methods: {
+
+      clearUI: function() {
+         this.result = '';
+         this.steps = [];
+         ...
+         this.peak.info("results cleared!");     // You can always access the logger via this.peak.info or this.peak.error (or this.peak.logger)
+      }
+   }
+});
+
+```
