@@ -1,10 +1,7 @@
 {
-  "name": "peak-userland",
+  "name": "@peak-app/peak-userland",
   "version": "1.0.1",
-  "description": "",
+  "description": "This is a Peak module that enables function native od JS function calls from within your application (userland).",
   "main": "peak-userland.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Robin Reiter & Matthias Hermann"
 }
