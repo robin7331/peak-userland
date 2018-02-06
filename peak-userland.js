@@ -21,10 +21,10 @@ PeakModule.prototype.bind = function(functionName, func){
 		return;
 	}
 
-	//Register a callable JS Function that simply broadcasts an event that has the same name as the function
+	// Register a callable JS Function that simply broadcasts an event that has the same name as the function
 	this[functionName] = func;
 	if(this.peak.config.debug){
-		this._info(functionName + "() has been binded to " + this.name);
+		this._info(functionName + "() has been bound to " + this.name);
 	}
 };
 
