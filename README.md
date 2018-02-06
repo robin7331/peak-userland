@@ -1,29 +1,32 @@
-# PEAK Userland #
+# Peak Userland #
+
+This is a Peak module that enables function native od JS function calls from within your application (userland).
+The core module itself already has a couple of internal methods like the Logger which it uses to communicate between the native and iOS world.
+
+You obviously want your very own function calls like f.ex. when a user clicks on a button in a webview you might want to trigger a native method. This is where this userland module comes to action.
+Like Peak Core itself it uses `method definitions` to prevent any typos in function calls. 
 
 ## Installation ##
 
-1. Add the peak userland Library to your JS project via NPM ```npm install @bitmechanics/peak-userland --save```
-2. Use this module in peak:
+1. Add the peak userland library to your JS project via NPM ```npm install @peak-app/peak-userland --save```
+2. Tell peak to use the userland module:
 
-```
-#!javascript
-
+```javascript
 const methodDefinitions = require('./method-definitions');
-const peakUserland = peak.useModule(require('@bitmechanics/peak-userland'), methodDefinitions);
+const peakUserland = peak.useModule(require('@peak-app/peak-userland'), methodDefinitions);
 ```
 
 ## Method definitions ##
 
 Define all the methods, that you need in this particular App.
 In this example we will build an mobile App that has a calculator functionality.
-This calculator stores the latest result in the App bundle.
+This calculator stores the latest result within the native App bundle.
 
-We might need ```clear()``` as a JS function to reset the calculator and ```storeResult(result) aswell as getLastResult()``` as native methods.
+We might need ```clear()``` as a JS function to reset the calculator and ```storeResult(result) aswell as getLastResult()``` as native methods that we then call from within JS.
 
-Our method-definitions.js file will look like this:
+Our method-definitions.js file might look like this:
 
-```
-#!javascript
+```javascript
 
 module.exports = {
    native: [
@@ -39,55 +42,40 @@ module.exports = {
    js: [
       {
          name: 'clear'
-      },
-      {
-         name: 'getCurrentResult',
-         callbackDataType: 'number'
       }
    ]
 }
 ```
 
+After defining all required methods we now just have to implement them.
 
-In our App we now need to implement these functions.
 
-
-## Implement JS Functions ##
+## Implementing and binding JS Functions ##
 
 We only have one JS function, this could be implemented like this:
 
 
-```
-#!javascript
+```javascript
 
+// grab a reference to the userland module
+const userland = peak.modules.peakUserland 
 
-new Vue({
-
-   ready() {
-     
-      const userland = peak.modules.peakUserland // grab a reference to the userland module
-      userland.bind('clear', this.clearUI)       // 'bind' this.clearUI to the defined method definition. This method can now be called from native.
-      userland.bind('getCurrentResult', this.getCurrentResult)
-
-      // After binding a method, you could also access it through:
-      userland.clear()
-     
-   },
-
-   methods: {
-
-      clearUI() {
-         this.result = ''
-         this.steps = []
-         ...
-         this.peak.info("results cleared!")     // You can always access the logger via this.peak.info or this.peak.error (or this.peak.logger)
-      },
-      getCurrentResult(callback) {
-         callback(this.result);
-      }
-   }
+userland.bind('clear', () => {
+   // do whatever clear does...
+   
+   // Use peaks internal logger either through peak.logger.info() or conveniently via peak.info() or peak.error()
+   peak.info("We have cleared the UI!")
 })
 
+// After binding a method to the userland module, you could also access it through:
+userland.clear()
+  
 ```
 
 ## Call native methods ##
+
+```javascript
+
+// all native methods defined in the method definitions are callable like this:
+userland.storeResult(120);
+```
